@@ -10,6 +10,7 @@ public class Login extends javax.swing.JFrame {
     String pass;
     public static String acceso;
     LoginAcceso l = new LoginAcceso();
+    int intentos = 3;
  
     public Login() {
         initComponents();
@@ -126,9 +127,17 @@ public class Login extends javax.swing.JFrame {
         pass = txtPass.getText();
         acceso = l.acceso(user, pass);
         if (acceso.equalsIgnoreCase("no encontrado")) {
-            JOptionPane.showMessageDialog(null, "Correo o contraseña incorrecta", "Alerta", JOptionPane.WARNING_MESSAGE);
+            intentos--;
+            JOptionPane.showMessageDialog(null, "Correo o contraseña incorrecta\nTe quedan: " + intentos + " intentos", "Alerta", JOptionPane.WARNING_MESSAGE);
+            if (intentos == 0) {
+                System.exit(0);
+            }
         } else if (acceso.equalsIgnoreCase("inactivo")) {
-            JOptionPane.showMessageDialog(null, "Usuario inactivo", "Alerta", JOptionPane.WARNING_MESSAGE);
+            intentos--;
+            JOptionPane.showMessageDialog(null, "Usuario inactivo\nTe quedan: " + intentos + " intentos", "Alerta", JOptionPane.WARNING_MESSAGE);
+            if (intentos == 0) {
+                System.exit(0);
+            }
         } else if (acceso.equalsIgnoreCase("administrador") || acceso.equalsIgnoreCase("gerente")) {
             this.dispose();
             new Sistema().setVisible(true); 
